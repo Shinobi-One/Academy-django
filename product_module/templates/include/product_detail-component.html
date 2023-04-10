@@ -1,0 +1,92 @@
+						<div class="col-sm-5">
+							<div class="view-product">
+								<img src="../static/images/product-details/1.jpg" alt="" />
+								<h3>بزرگنمایـی</h3>
+							</div>
+							<div id="similar-product" class="carousel slide" data-ride="carousel">
+
+								  <!-- Wrapper for slides -->
+								    <div class="carousel-inner">
+										<div class="item active">
+										  <a href=""><img src="../static/images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="../static/images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="../static/images/product-details/similar3.jpg" alt=""></a>
+										</div>
+										<div class="item">
+										  <a href=""><img src="../static/images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="../static/images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="../static/images/product-details/similar3.jpg" alt=""></a>
+										</div>
+										<div class="item">
+										  <a href=""><img src="../static/images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="../static/images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="../static/images/product-details/similar3.jpg" alt=""></a>
+										</div>
+
+									</div>
+
+								  <!-- Controls -->
+								  <a class="right item-control" href="#similar-product" data-slide="next">
+									<i class="fa fa-angle-right"></i>
+								  </a>
+								  <a class="left item-control" href="#similar-product" data-slide="prev">
+									<i class="fa fa-angle-left"></i>
+								  </a>
+							</div>
+
+						</div>
+						<div class="col-sm-7">
+							<div class="product-information"><!--/product-information-->
+								<img src="../static/images/product-details/new.png" class="newarrival" alt="" />
+								<div>
+									<h2>عنوان: {{ product.title }}</h2>
+									<p>کـالای شمـاره {{ product.id }}</p>
+								</div>
+								<div>
+									<span>
+										<span>قیمت : {{ product.price}} تومان </span>
+									</span>
+									<span>
+										<label>تعداد :</label>
+										<input type="text" value="3" class="search_box"/>
+										<button type="button" class="btn btn-fefault cart">
+											<i class="fa fa-shopping-cart"></i>
+											افـزودن به سبـد خریـد
+										</button>
+									</span>
+								</div>
+								<div>
+                                    {% if product.is_active %}
+                                        <p><b>موجـود است :</b> بله </p>
+                                        {% else  %}
+                                        <p><b>موجـود است :</b> خیر </p>
+                                    {% endif %}
+									<p><b>شرایـط :</b> جدیـد</p>
+									<p><b>برنـد :</b> {{ product.brand.title }} </p>
+								</div>
+								<span  class="socials-share share">
+									<ul>
+										<a href="#">
+											<li>
+												<label>بلـه</label>
+												<img src="../static/images/product-details/Bale.png"/>
+											</li>
+										</a>
+										<a href="#">
+											<li>
+												<label>سـروش</label>
+												<img src="../static/images/product-details/Soroush.png"/>
+											</li>
+										</a>
+										<a href="#">
+											<li>
+												<label>اینستاگرام</label>
+												<img src="../static/images/product-details/Instagram.png"/>
+											</li>
+										</a>
+										<li><img src="../static/images/product-details/rating.png" alt="" /></li>
+									</ul>
+								</span>
+
+							</div><!--/product-information-->
+						</div>
