@@ -39,6 +39,7 @@ class Product(models.Model):
         verbose_name='دسته بندی ها')
     brand = models.ForeignKey(ProductBrand,on_delete=models.CASCADE,verbose_name='برند محصول ', blank=True, null=True )
     price = models.IntegerField(verbose_name='قیمت')
+    image = models.ImageField(upload_to='product_image',null=True)
     short_description = models.CharField(max_length=360, db_index=True, null=True, verbose_name='توضیحات کوتاه')
     description = models.TextField(verbose_name='توضیحات اصلی', db_index=True)
     slug = models.SlugField(default="", null=False, db_index=True, blank=True, max_length=200, unique=True, verbose_name='عنوان در url')
@@ -70,3 +71,4 @@ class ProductTag(models.Model):
 
     def __str__(self):
         return self.caption
+

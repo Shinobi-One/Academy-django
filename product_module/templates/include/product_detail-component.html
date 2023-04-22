@@ -1,6 +1,11 @@
 						<div class="col-sm-5">
 							<div class="view-product">
-								<img src="../static/images/product-details/1.jpg" alt="" />
+                                {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="">
+                            {% else %}
+								<img src="/static/images/product-details/1.jpg" alt="" />
+                            {% endif %}
+
 								<h3>بزرگنمایـی</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -8,7 +13,7 @@
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner">
 										<div class="item active">
-										  <a href=""><img src="../static/images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="./static/images/product-details/similar1.jpg" alt=""></a>
 										  <a href=""><img src="../static/images/product-details/similar2.jpg" alt=""></a>
 										  <a href=""><img src="../static/images/product-details/similar3.jpg" alt=""></a>
 										</div>
@@ -37,7 +42,7 @@
 						</div>
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
-								<img src="../static/images/product-details/new.png" class="newarrival" alt="" />
+								<img src="/static/images/product-details/new.png" class="newarrival" alt="" />
 								<div>
 									<h2>عنوان: {{ product.title }}</h2>
 									<p>کـالای شمـاره {{ product.id }}</p>
@@ -48,15 +53,17 @@
 									</span>
 									<span>
 										<label>تعداد :</label>
-										<input type="text" value="3" class="search_box"/>
-										<button type="button" class="btn btn-fefault cart">
+                                            <form action="{% url 'shop:product_list' %}" name="product" >
+                                                <input type="hidden" value="{{ product.id }}" class="search_box"/>
+										<button type="submit" class="btn btn-default cart">
 											<i class="fa fa-shopping-cart"></i>
-											افـزودن به سبـد خریـد
+											افـزودن به favorite
 										</button>
+                                            </form>
 									</span>
 								</div>
 								<div>
-                                    {% if product.is_active %}
+                                    {% if stmt %}
                                         <p><b>موجـود است :</b> بله </p>
                                         {% else  %}
                                         <p><b>موجـود است :</b> خیر </p>
