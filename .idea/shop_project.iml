@@ -22,6 +22,13 @@
     <orderEntry type="jdk" jdkName="Python 3.10 (shop_project)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="PyNamespacePackagesService">
+    <option name="namespacePackageFolders">
+      <list>
+        <option value="$MODULE_DIR$/utils" />
+      </list>
+    </option>
+  </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
@@ -31,6 +38,7 @@
         <option value="$MODULE_DIR$/home_module/templates" />
         <option value="$MODULE_DIR$/contact_module/templates" />
         <option value="$MODULE_DIR$/user_module/templates" />
+        <option value="$MODULE_DIR$/article_module/templates" />
       </list>
     </option>
   </component>

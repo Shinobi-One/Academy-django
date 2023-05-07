@@ -1,12 +1,12 @@
-from django.contrib.auth import login
-from django.http import Http404
+from django.contrib.auth import login, logout
+from django.http import Http404, HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views.generic import CreateView
 from django.views.generic.base import View
-
-from user_module.forms import RegisterForm, LoginForm, ForgetPassForm
+from utils.email_service import send_mail
+from user_module.forms import RegisterForm, LoginForm, ForgetPassForm, ResetPasswordForm
 from user_module.models import User
 
 
@@ -36,8 +36,8 @@ class RegisterView(View):
                                 username=email_user)
                 new_user.set_password(password)
                 new_user.save()
-                return redirect(reverse('home:home_page'))
-
+                send_mail("ایمیل فعال سازی",{"user" : user},"user_module/email/activate_mail.html",new_user.email,)
+                return redirect(reverse('user:login'))
         context = {
             "register_form": form
         }
@@ -51,7 +51,7 @@ class UserActivateView(View):
             if user:
                 user.is_active = True
                 user.save()
-                return redirect(reverse('home:home_page'))
+                return redirect(reverse('user:login'))
             raise Http404
         else:  # todo : user is already active !
             pass
@@ -61,12 +61,12 @@ class LoginView(View):
     def get(self, request):
         login_form = LoginForm()
         context = {
-            "login_form": login_form
-
+            'login_form': login_form
         }
+
         return render(request, 'user_module/login_form.html', context)
 
-    def post(self, request):
+    def post(self, request: HttpRequest):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             user_email = login_form.cleaned_data.get('email')
@@ -81,7 +81,7 @@ class LoginView(View):
                         login(request, user)
                         return redirect(reverse('home:home_page'))
                     else:
-                        login_form.add_error('email', 'کاربری با مشخصات وارد شده یافت نشد')
+                        login_form.add_error('email', 'کلمه عبور اشتباه است')
             else:
                 login_form.add_error('email', 'کاربری با مشخصات وارد شده یافت نشد')
 
@@ -92,7 +92,12 @@ class LoginView(View):
         return render(request, 'user_module/login_form.html', context)
 
 
-class ForgetPassword(View):
+class LogoutView(View):
+    def get(self,request):
+        logout(request)
+        return redirect(reverse("home:home_page"))
+
+class ForgetPasswordView(View):
     def get(self, request):
         forget_pass_form = ForgetPassForm()
         context = {
@@ -103,14 +108,12 @@ class ForgetPassword(View):
     def post(self, request):
         forget_pass_form = ForgetPassForm(request.POST)
         if forget_pass_form.is_valid():
-
             email = forget_pass_form.cleaned_data.get("email")
-            user: bool = User.objects.filter(email__iexact=email).first()
-
-            if not user:
+            user: User = User.objects.filter(email__iexact=email).first()
+            if user is not None :
                 forget_pass_form.add_error("email", "کاربری با این ایمیل وجود ندارد")
-            else:
-                redirect(reverse("user:reset-password"))
+            send_mail("ایمیل فعال سازی", {"user": user}, "user_module/email/reset_code.html", user.email )
+            return redirect(reverse("user:reset-password"))
 
         context = {
             "forget_form": forget_pass_form
@@ -118,25 +121,37 @@ class ForgetPassword(View):
         return render(request, "user_module/forget_password.html", context)
 
 
-class ResetPassword(View):
-    def get(self, request):
-        forget_pass_form = ForgetPassForm()
-        context = {
-            "forget_form": forget_pass_form
-        }
-        return render(request, "user_module/forget_password.html", context)
 
-    def post(self, request,active_code):
-        forget_pass_form = ForgetPassForm(request.POST)
-        if forget_pass_form.is_valid():
-            user: bool = User.objects.filter(activation_code__exact=active_code).first()
+class ResetPasswordView(View):
+    def get(self, request: HttpRequest, activation_code):
+        user: User = User.objects.filter(activation_code__iexact=activation_code).first()
+        if user is None:
+            return redirect(reverse('user:login'))
 
-            if not user:
-                forget_pass_form.add_error("email", "کاربری با این ایمیل وجود ندارد")
-            else:
-                pass
+        reset_pass_form = ResetPasswordForm()
 
         context = {
-            "forget_form": forget_pass_form
+            'reset_pass_form': reset_pass_form,
+            'user': user
         }
-        return render(request, "user_module/reset_password.html", context)
+        return render(request, 'user_module/reset_password.html', context)
+
+    def post(self, request: HttpRequest, activation_code):
+        reset_pass_form = ResetPasswordForm(request.POST)
+        user: User = User.objects.filter(activation_code__iexact=activation_code).first()
+        if reset_pass_form.is_valid():
+            if user is None:
+                return redirect(reverse('user:login'))
+            user_new_pass = reset_pass_form.cleaned_data.get('password')
+            user.set_password(user_new_pass)
+            user.activation_code = get_random_string(72)
+            user.is_active = True
+            user.save()
+            return redirect(reverse('user:login'))
+
+        context = {
+            'reset_pass_form': reset_pass_form,
+            'user': user
+        }
+
+        return render(request, 'user_module/reset_password.html', context)
