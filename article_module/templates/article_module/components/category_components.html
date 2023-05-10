@@ -1,0 +1,83 @@
+
+						<h2>دسته بندی محصولات</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                            {% for main_category in main_categories %}
+
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+                                        {% if main_category.articlecategory_set.all %}
+										<a data-toggle="collapse" data-parent="#accordian" href="#{{ main_category.url }} ">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                {{ main_category.title }}
+										</a>
+                                            {% else %}
+                                            <a  href="{% url "article:article-by-category-list" main_category.url %}">
+                                                {{ main_category.title }}
+
+										</a>
+                                        {% endif %}
+									</h4>
+								</div>
+								<div id="{{ main_category.url }}" class="panel-collapse collapse">
+									<div class="panel-body">
+
+
+										<ul>
+                                                   {% for sub_category in  main_category.articlecategory_set.all %}
+											<li><a href="{% url "article:article-by-category-list" sub_category.url %}">{{ sub_category.url }}</a></li>
+                                    {% endfor %}
+										</ul>
+
+									</div>
+								</div>
+							</div>
+
+                            {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+{#							<div class="panel panel-default">#}
+{#								<div class="panel-heading">#}
+{#									<h4 class="panel-title"><a href="#">محصول 1</a></h4>#}
+{#								</div>#}
+{#							</div>#}
+{#							<div class="panel panel-default">#}
+{#								<div class="panel-heading">#}
+{#									<h4 class="panel-title"><a href="#">محصول 2</a></h4>#}
+{#								</div>#}
+{#							</div>#}
+{#							<div class="panel panel-default">#}
+{#								<div class="panel-heading">#}
+{#									<h4 class="panel-title"><a href="#">محصول 3</a></h4>#}
+{#								</div>#}
+{#							</div>#}
+{#							<div class="panel panel-default">#}
+{#								<div class="panel-heading">#}
+{#									<h4 class="panel-title"><a href="#">محصول 4</a></h4>#}
+{#								</div>#}
+{#							</div>#}
+{#							<div class="panel panel-default">#}
+{#								<div class="panel-heading">#}
+{#									<h4 class="panel-title"><a href="#">محصول 5</a></h4>#}
+{#								</div>#}
+{#							</div>#}
+{#							<div class="panel panel-default">#}
+{#								<div class="panel-heading">#}
+{#									<h4 class="panel-title"><a href="#">محصول 6</a></h4>#}
+{#								</div>#}
+{#							</div>#}
+{#							<div class="panel panel-default">#}
+{#								<div class="panel-heading">#}
+{#									<h4 class="panel-title"><a href="#">محصول 7</a></h4>#}
+{#								</div>#}
+{#							</div>#}
+						</div><!--/category-productsr-->
