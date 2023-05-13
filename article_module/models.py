@@ -1,6 +1,6 @@
 from django.db import models
 from jalali_date import datetime2jalali, date2jalali
-
+import time
 from user_module.models import User
 
 
@@ -43,3 +43,19 @@ class Article(models.Model):
         return date2jalali(self.date_created)
     def get_jalali_time(self):
         return self.date_created.strftime('%H:%M:%S')
+
+
+class ArticleComments(models.Model):
+    article =  models.ForeignKey("Article",on_delete=models.CASCADE,verbose_name="مقاله")
+    author = models.ForeignKey(User ,  on_delete=models.CASCADE,verbose_name="نویسنده کامنت")
+    parent = models.ForeignKey("ArticleComments",null=True,blank=True,on_delete=models.CASCADE,verbose_name="والد")
+    date_created = models.DateField(auto_now_add=True, verbose_name="زمان انتشار")
+    is_active = models.BooleanField(default=True, verbose_name="فعال/غیرفعال")
+    text = models.TextField(verbose_name="متن")
+
+    class Meta:
+        verbose_name = " کامنت"
+        verbose_name_plural = "کامنت ها"
+
+    def __str__(self):
+        return f"کامنت{self.id}"

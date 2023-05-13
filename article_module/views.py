@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
-from .models import ArticleCategory, Article
+from .models import ArticleCategory, Article, ArticleComments
 
 
 # Create your views here.
@@ -9,7 +9,7 @@ from .models import ArticleCategory, Article
 
 class ArticlesView(ListView):
     template_name = 'article_module/articles_page.html'
-    paginate_by = 1
+    paginate_by = 5
     context_object_name = "article"
     model = Article
 
@@ -19,6 +19,7 @@ class ArticlesView(ListView):
 
     def get_queryset(self):
         query = super(ArticlesView,self).get_queryset()
+        query = query.filter(is_active=True)
         this_category = self.kwargs.get('category')
         print(self.kwargs)
         if this_category is not None :
@@ -32,6 +33,13 @@ class ArticleDetailView(DetailView):
     context_object_name = 'article'
     model = Article
 
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView,self).get_context_data(**kwargs)
+        article = kwargs.get('object')
+        comment : ArticleComments = ArticleComments.objects.filter(article_id=article.id,parent=None).prefetch_related("article__articlecomments_set")
+
+        context['comments'] = comment
+        return context
 def category_components(request):
     main_categories = ArticleCategory.objects.filter(is_active=True,parent = None)
     context = {

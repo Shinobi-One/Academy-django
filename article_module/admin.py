@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ArticleCategory, Article
+from .models import ArticleCategory, Article , ArticleComments
 
 
 @admin.register(ArticleCategory)
@@ -19,3 +19,7 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
         if not change :
             obj.author = request.user
         return super().save_model(request,obj,form,change)
+
+@admin.register(ArticleComments)
+class ArticleCommentsAdmin(admin.ModelAdmin):
+    pass

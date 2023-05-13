@@ -6,6 +6,8 @@ from jalali_date import datetime2jalali
 # Create your models here.
 class User(AbstractUser):
     activation_code = models.CharField(max_length=200, verbose_name='ایمیل فعال سازی')
+    avatar = models.ImageField(verbose_name='آواتار',null=True)
+    about = models.TextField(verbose_name="درباره شخص",null=True,blank=True)
 
     class Meta:
         verbose_name_plural = 'کاربران'
