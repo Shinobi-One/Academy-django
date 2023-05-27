@@ -113,7 +113,7 @@
                                     <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
 								</div>
 							</li>
-                    {% for answer in comment.articlecomments_set.all %}
+                    {% for answer in comment.parent_comment.all %}
                                     	<li class="media second-media">
                                         {% if answer.author.avatar %}
 								<a class="pull-right" href="#">

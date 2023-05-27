@@ -48,7 +48,7 @@ class Article(models.Model):
 class ArticleComments(models.Model):
     article =  models.ForeignKey("Article",on_delete=models.CASCADE,verbose_name="مقاله")
     author = models.ForeignKey(User ,  on_delete=models.CASCADE,verbose_name="نویسنده کامنت")
-    parent = models.ForeignKey("ArticleComments",null=True,blank=True,on_delete=models.CASCADE,verbose_name="والد")
+    parent = models.ForeignKey("ArticleComments",null=True,blank=True,on_delete=models.CASCADE,related_name="parent_comment", verbose_name="والد")
     date_created = models.DateField(auto_now_add=True, verbose_name="زمان انتشار")
     is_active = models.BooleanField(default=True, verbose_name="فعال/غیرفعال")
     text = models.TextField(verbose_name="متن")
