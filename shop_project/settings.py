@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 import django.core.mail.backends.smtp
@@ -37,17 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'product_module.apps.ProductModuleConfig',
-    'home_module',
-    'contact_module',
-    'user_module',
-    'website_module',
-    'article_module',
+    'apps.product_module',
+    'apps.home_module',
+    'apps.contact_module',
+    'apps.user_module',
+    'apps.website_module',
+    'apps.article_module',
     'django_render_partial',
     'polls',
     'sorl.thumbnail',
     'jalali_date',
-    'user_panel_module'
+    'apps.user_panel_module'
 ]
 
 MIDDLEWARE = [
@@ -127,9 +127,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+STATIC_ROOT = os.path.join(BASE_DIR , 'static_cdn' , 'static')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -142,6 +141,8 @@ EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_PORT = 587
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static_cdn', 'media')
 # default settings (optional)
 JALALI_DATE_DEFAULTS = {
    'Strftime': {

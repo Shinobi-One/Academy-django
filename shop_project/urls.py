@@ -13,19 +13,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import pkgutil
+
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 
 from shop_project import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('products/', include('product_module.urls')),
-    path('contact-us/', include('contact_module.urls')),
-    path('register-me/', include('user_module.urls')),
-    path('', include('home_module.urls')),
-    path('articles/', include('article_module.urls')),
-path('user_panel/', include('user_panel_module.url'))
+         path('admin/', admin.site.urls),
+    #     path('products/', include('product_module.urls')),
+    #     path('contact-us/', include('contact_module.urls')),
+    #     path('register-me/', include('user_module.urls')),
+    #     path('', include('home_mo
+    #     dule.urls')),
+    #     path('articles/', include('article_module.urls')),
+    # path('user_panel/', include('user_panel_module.url'))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+for _, name, _ in pkgutil.iter_modules(['apps']):
+    my_path = path("",include(f'apps.{name}.urls'))
+    urlpatterns.append(my_path)
+
