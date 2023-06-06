@@ -30,6 +30,8 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         # request = self.request
         context = super(ProductDetailView, self).get_context_data()
+        loaded_product = self.object
+        # context['product_gallery'] = ProductGallery.objects.filter(product_id=loaded_product.id).all()
         # object = self.object.id
         # data = request.session['product']
         # context['stmt'] = data == object

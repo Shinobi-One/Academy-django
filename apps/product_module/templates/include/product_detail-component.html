@@ -12,21 +12,14 @@
 
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner">
+                                        {% for pictures in product_gallery %}
 										<div class="item active">
-										  <a href=""><img src="./static/images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="../static/images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="../static/images/product-details/similar3.jpg" alt=""></a>
-										</div>
-										<div class="item">
-										  <a href=""><img src="../static/images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="../static/images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="../static/images/product-details/similar3.jpg" alt=""></a>
-										</div>
-										<div class="item">
-										  <a href=""><img src="../static/images/product-details/similar1.jpg" alt=""></a>
-										  <a href=""><img src="../static/images/product-details/similar2.jpg" alt=""></a>
-										  <a href=""><img src="../static/images/product-details/similar3.jpg" alt=""></a>
-										</div>
+                                                {% for picture in pictures %}
+                                            <a href=""><img src="{{ picture.images.url }}" alt=""></a>
+                                                {% endfor %}
+
+										</div>{% endfor %}
+
 
 									</div>
 

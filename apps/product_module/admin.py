@@ -15,5 +15,6 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(ProductTag)
 admin.site.register(ProductBrand)
 admin.site.register(ProductCategory)
+# admin.site.register(ProductGallery)
 admin.site.register(Product, ProductAdmin)
 
