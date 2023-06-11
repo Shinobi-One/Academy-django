@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from jalali_date import datetime2jalali
+# from jalali_date import datetime2jalali
 
 
 # Create your models here.

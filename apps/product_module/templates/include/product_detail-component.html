@@ -1,4 +1,5 @@
-						<div class="col-sm-5">
+{% load sorl_thumbnail %}
+<div class="col-sm-5">
 							<div class="view-product">
                                 {% if product.image %}
                                 <img src="{{ product.image.url }}" alt="">
@@ -12,14 +13,15 @@
 
 								  <!-- Wrapper for slides -->
 								    <div class="carousel-inner">
-                                        {% for pictures in product_gallery %}
 										<div class="item active">
-                                                {% for picture in pictures %}
-                                            <a href=""><img src="{{ picture.images.url }}" alt=""></a>
-                                                {% endfor %}
-
-										</div>{% endfor %}
-
+                                            <a href="">
+                                            {% for item in product.product_gallery.all %}
+                                                    {% thumbnail item.images "85x85" crop="center"  as image %}
+                                            <img src="{{ image.url }}">
+                                                {% endthumbnail %}
+										  </a>
+										  {% endfor %}
+										</div>
 
 									</div>
 
@@ -64,29 +66,7 @@
 									<p><b>شرایـط :</b> جدیـد</p>
 									<p><b>برنـد :</b> {{ product.brand.title }} </p>
 								</div>
-								<span  class="socials-share share">
-									<ul>
-										<a href="#">
-											<li>
-												<label>بلـه</label>
-												<img src="../static/images/product-details/Bale.png"/>
-											</li>
-										</a>
-										<a href="#">
-											<li>
-												<label>سـروش</label>
-												<img src="../static/images/product-details/Soroush.png"/>
-											</li>
-										</a>
-										<a href="#">
-											<li>
-												<label>اینستاگرام</label>
-												<img src="../static/images/product-details/Instagram.png"/>
-											</li>
-										</a>
-										<li><img src="../static/images/product-details/rating.png" alt="" /></li>
-									</ul>
-								</span>
+
 
 							</div><!--/product-information-->
 						</div>

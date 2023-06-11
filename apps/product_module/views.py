@@ -4,6 +4,7 @@ from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.base import View
 
 from .models import Product, ProductCategory
+from ..user_module.models import User
 
 
 # Create your views here.
@@ -30,14 +31,18 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         # request = self.request
         context = super(ProductDetailView, self).get_context_data()
-        loaded_product = self.object
-        # context['product_gallery'] = ProductGallery.objects.filter(product_id=loaded_product.id).all()
         # object = self.object.id
         # data = request.session['product']
         # context['stmt'] = data == object
+        context["user"] = User.objects.filter(is_active=True).first()
         return context
 
-
+def category_components(request):
+    main_categories = ProductCategory.objects.filter(is_active=True,parent = None)
+    context = {
+        "main_categories" : main_categories
+    }
+    return render(request, "product_module/components/category_components.html", context)
 class AddFavorite(View):
     template_name = 'product_module/product_detail.html'
     model = Product

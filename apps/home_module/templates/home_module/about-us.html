@@ -1,5 +1,5 @@
 {%  extends "include/layout.html" %}
-
+{% load thumbnail %}
 {% block title %}
 درباره ی ما
 {% endblock %}
@@ -8,19 +8,19 @@
 	 <div id="contact-page" class="container">
     	<div class="bg">
 
-    		<div class="row">
-				<div class="col-sm-4">
+
+				<div class="col-sm-12 ">
 	    			<div class="contact-info">
 	    				<h2 class="title text-center">لوگـو شرکت</h2>
-						<img src=".{{ site_data.site_logo.url }}" class="img-responsive" />
-	    			</div>
-    			</div>
-	    		<div class="col-sm-8">
+                         {% thumbnail site_data.site_logo "600x350" crop="center"  as image %}
+                               <img  src="{{ image.url }}"   style="text-align: center" >
+                         {% endthumbnail %}
+                    </div>
+                    <div class="clearfix"></div>
+	    		<div class="col-sm-12 ">
 	    			<div class="about">
 	    				<h2 class="title text-center">دربـاره ما</h2>
-						<p class="about-desc">
-{#	    				{{ site_data.about_us_text }}#} Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aut autem dolore error ex ipsam nesciunt obcaecati provident quos ratione!
-						</p>
+                        <p>{{ site_data.about_us_text }}lorem20  mmkmkmkmkmkmkmkmkmkmkmkmkmkmkmkmk</p>
 	    			</div>
 	    		</div>
 	    	</div>

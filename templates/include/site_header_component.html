@@ -1,3 +1,4 @@
+{%  load thumbnail %}
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -38,7 +39,11 @@
 
 					<div class="col-sm-4" style="text-align: left;">
 						<div class="logo">
-							<a href="{% url "home:home_page" %}"><img src="{{ site_setting.site_logo.url }}" width="200" alt="Logo" style="text-align: center;" /></a>
+							<a href="{% url "home:home_page" %}">
+                                {% thumbnail site_setting.site_logo  "200x100" crop="center" as image %}
+                               <img src="{{ image.url }}">
+                                {% endthumbnail %}
+
 						</div>
 					</div>
 
