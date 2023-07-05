@@ -53,6 +53,7 @@ class LoginForm(forms.Form):
             'placeholder': "رمـز عبـور",
         }))
 
+
 class ForgetPassForm(forms.Form):
     email = forms.EmailField(
         label='آدرس ایمیل',
@@ -80,3 +81,26 @@ class ResetPasswordForm(forms.Form):
             'placeholder': "تایید رمـز عبـور",
         }))
 
+
+class EditPasswordForm(forms.Form):
+        password = forms.CharField(
+            label='رمز  عبور',
+            widget=forms.PasswordInput(attrs={
+                'class': 'signup-form',
+                'type': "password",
+                'placeholder': "رمـز عبـور",
+            }))
+        current_password = forms.CharField(
+            label='رمز فعلی عبور',
+            widget=forms.PasswordInput(attrs={
+                'class': 'signup-form',
+                'type': "password",
+                'placeholder': "رمـز عبـور",
+            }))
+        confirm_password = forms.CharField(
+            label='تایید رمز عبور',
+            widget=forms.PasswordInput(attrs={
+                'class': 'signup-form',
+                'type': "password",
+                'placeholder': "تایید رمـز عبـور",
+            }))

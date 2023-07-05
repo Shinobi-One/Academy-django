@@ -1,0 +1,29 @@
+{% extends 'include/layout.html' %}
+{% load render_partial %}
+{% block title %}ویرایش اطلاعات کاربری{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <div class="row">
+    <div class="col-md-4 ">
+            <a class="thumbnail">
+            <img src="{{ current_user.avatar.url }}" alt="user_profile">
+            </a>
+        {% render_partial 'apps.user_panel_module.views.user_panel_partial' %}
+    </div>
+        <section id="form">
+                <div class="signup-form">
+            <form enctype="multipart/form-data" method="post" action="{% url 'user_panel:edit-user-panel' %}">
+                {% csrf_token %}
+            {{ edit_form }}
+                 <button type="submit" style="border-radius:10px; " class="btn btn-default" >ثبت </button>
+                <div class="clearfix"></div>
+            </form>
+                </div>
+
+        </section>
+    </div>
+    </div>
+{% endblock %}
+
+<button type="button" class="btn btn-info">Info</button>

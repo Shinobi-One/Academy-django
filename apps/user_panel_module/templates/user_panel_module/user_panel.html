@@ -1,7 +1,28 @@
 {% extends 'include/layout.html' %}
+{% load render_partial %}
 {% block title %}
 صفحه کاربری
 {% endblock %}
 {% block body %}
-<h1>hi</h1>
+    <div class="container">
+    <div class="row">
+   <div class="col-md-4 ">
+            <a class="thumbnail">
+            <img src="{{ user.avatar.url}}" alt="user_profile">
+            </a>
+        {% render_partial 'apps.user_panel_module.views.user_panel_partial' %}
+   </div>
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+  <div class="panel-heading">Panel heading without title</div>
+  <div class="panel-body">
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam animi aperiam consectetur distinctio ea earum excepturi explicabo harum in modi necessitatibus, nobis numquam possimus, reiciendis sequi ullam, vel vero.  </div>
+</div>
+        </div>
+
+    </div></div>
+
+
+
+
 {% endblock %}

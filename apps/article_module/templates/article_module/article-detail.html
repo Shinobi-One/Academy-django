@@ -93,8 +93,9 @@
                         {% endif %}
 					</div><!--Comments-->
 
-                        <div class="response-area">
-						<h2>پاسخ ها ({{ comments.count }})</h2>
+                        <div class="response-area" id="comment_section">
+
+						<h2>پاسخ ها ({{ count }})</h2>
 						<ul class="media-list">
 
                             {% for comment in comments %}
@@ -103,16 +104,18 @@
 								<a class="pull-right" href="#">  {% thumbnail article.author.avatar "128x89" crop="center"  as image %}
                                <img src="{{ image.url }}">
 								</a>{% endthumbnail %}
-								<div class="media-body">
+								<div class="media-body"  >
 									<ul class="sinlge-post-meta">
 										<li><i class="fa fa-user"></i>{{ comment.author.get_full_name }}</li>
-										<li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-										<li><i class="fa fa-calendar"></i> 25 تیـر 1397</li>
+{#										<li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>#}
+										<li><i class="fa fa-calendar"></i>{{ comment.date_created }}</li>
 									</ul>
                                     <p>{{ comment.text }}</p>
-                                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
+                                    <a class="btn btn-primary" onclick="setparentId({{ comment.id }})"><i
+                                                class="fa fa-reply"></i>پاسـخ</a>
 								</div>
 							</li>
+
                     {% for answer in comment.parent_comment.all %}
                                     	<li class="media second-media">
                                         {% if answer.author.avatar %}
@@ -131,10 +134,10 @@
 									<ul class="sinlge-post-meta">
 										<li><i class="fa fa-user"></i>{{ answer.author.get_full_name }}</li>
 										<li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-										<li><i class="fa fa-calendar"></i> 25 تیـر 1397</li>
+										<li><i class="fa fa-calendar"></i>{{ article.date_created }}</li>
 									</ul>
 									<p>{{ answer.text }}</p>
-									<a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
+
 								</div>
 							</li>
                                     {% endfor %}{% endfor %}
@@ -144,72 +147,34 @@
 					</div>
 
                     <!--/Response-area-->
-					<div class="replay-box">
+</div><!--/Response-area-->
+                    <div class="replay-box"  >
                         {% if request.user.is_authenticated %}
                             <div class="row">
-
-							<div class="col-sm-8">
-								<div class="text-area">
-									<div class="blank-arrow">
-										<label>متن پیام</label>
-									</div>
-									<span>*</span>
-									<textarea name="message" rows="11"></textarea>
-									<a class="btn btn-primary" href="">ارسـال نظـر</a>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<h2>نظـر خود را بنویسیـد</h2>
-								<form>
-									<div class="blank-arrow">
-										<label>نام</label>
-									</div>
-									<span>*</span>
-									<input type="text" placeholder="نام شما .">
-									<div class="blank-arrow">
-										<label>آدرس ایمیـل</label>
-									</div>
-									<span>*</span>
-									<input type="email" placeholder="ایمیـل شما .">
-									<div class="blank-arrow">
-										<label>وبسایت</label>
-									</div>
-									<input type="email" placeholder="آدرس وبسایـت">
-								</form>
-							</div>
-						</div>
-                            {% else %}
-                            <div class="alert alert-warning ">
-                            <h3>برای درج نظر باید <a href="{% url "user:login" %}">ورود</a></a> کنید</h3>
+                                <div class="col-sm-12">
+                                    <h2>نظـر خود را بنویسیـد</h2>
+                                    <div class="text-area" id="comment_form" >
+                                        <input type="hidden" id="parent_id" value="">
+                                        <div class="blank-arrow">
+                                            <label>متن پیام</label>
+                                        </div>
+                                        <span>*</span>
+                                        <textarea name="message" rows="11" id="commentText"></textarea>
+                                        <a class="btn btn-primary" onclick="sendArticleComment({{ article.id }})">ارسـال
+                                            نظـر</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                برای درج نظر می بایست <a href="{% url 'user:login' %}">لاگین</a> کنید
                             </div>
                         {% endif %}
-
-					</div><!--/Repaly Box-->
+                    </div><!--/Repaly Box-->
+                </div>
 				</div>
 
-				<div class="col-sm-3">
-					<div class="left-sidebar">
-						{% render_partial "apps.article_module.views.category_components" %}
 
-						<div class="brands_products"><!--brands_products-->
-							<h2>برنـد ها</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href=""> <span class="pull-left">(50)</span>برنـد 1</a></li>
-									<li><a href=""> <span class="pull-left">(56)</span>برنـد 2</a></li>
-									<li><a href=""> <span class="pull-left">(27)</span>برنـد 3</a></li>
-									<li><a href=""> <span class="pull-left">(32)</span>برنـد 4</a></li>
-									<li><a href=""> <span class="pull-left">(5)</span>برنـد 5</a></li>
-								</ul>
-							</div>
-						</div><!--/brands_products-->
-
-						<div class="shipping text-center"><!--shipping-->
-							<img src="/static/images/home/shipping.jpg" alt="" />
-						</div><!--/shipping-->
-
-					</div>
-				</div>
 
 			</div>
 		</div>
