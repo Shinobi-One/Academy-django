@@ -113,7 +113,7 @@ class ForgetPasswordView(View):
             if user is not None :
                 forget_pass_form.add_error("email", "کاربری با این ایمیل وجود ندارد")
             send_mail("ایمیل فعال سازی", {"user": user}, "user_module/email/reset_code.html", user.email )
-            return redirect(reverse("user:reset-password"))
+            return redirect(reverse("user:forget_password"))
 
         context = {
             "forget_form": forget_pass_form

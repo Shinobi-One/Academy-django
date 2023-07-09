@@ -15,6 +15,7 @@ class ArticlesView(ListView):
     context_object_name = "article"
     model = Article
 
+
     def get_context_data(self,*args , **kwargs):
         data = super(ArticlesView, self).get_context_data(*args , **kwargs)
         return data
@@ -23,10 +24,8 @@ class ArticlesView(ListView):
         query = super(ArticlesView,self).get_queryset()
         query = query.filter(is_active=True)
         this_category = self.kwargs.get('category')
-        print(self.kwargs)
         if this_category is not None :
             query = query.filter(selected_categories__url__iexact=this_category)
-
         return query
 
 
@@ -39,11 +38,10 @@ class ArticleDetailView(DetailView):
         context = super(ArticleDetailView,self).get_context_data(**kwargs)
         article = kwargs.get('object')
         comment : ArticleComments = ArticleComments.objects.filter(article_id=article.id,parent=None).order_by('-date_created').prefetch_related("parent_comment")
-
         context['comments'] = comment
         return context
 def category_components(request):
-    main_categories = ArticleCategory.objects.filter(is_active=True,parent = None)
+    main_categories = ArticleCategory.objects.prefetch_related('articlecategory_set').filter(is_active=True,parent = None)
     context = {
         "main_categories" : main_categories
     }

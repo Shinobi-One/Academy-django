@@ -7,26 +7,25 @@
 								<div class="panel-heading">
 									<h4 class="panel-title">
                                         {% if main_category.sub_category.all %}
-										<a data-toggle="collapse" data-parent="#accordian" href="#{{ main_category.url }} ">
+										<a data-toggle="collapse" data-parent="#accordian" href="#{{ main_category.url_title }}">
 											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                {{ main_category.title }}
+                                            {{ main_category.title }}
 										</a>
                                             {% else %}
-                                            <a  href="">
+                                            <a  href="{% url 'shop:product_list_by_category' main_category.url_title %}">
                                                 {{ main_category.title }}
 
 										</a>
                                         {% endif %}
 									</h4>
 								</div>
-								<div id="{{ main_category.url }}" class="panel-collapse collapse">
+								<div id="{{ main_category.url_title }}" class="panel-collapse collapse">
 									<div class="panel-body">
 
-
 										<ul>
-                                                   {% for sub_category in  main_category.sub_category.all %}
-											<li><a href="">{{ sub_category.url }}</a></li>
-                                    {% endfor %}
+                                                    {% for sub_category in  main_category.sub_category.all %}
+											<li><a href="{% url 'shop:product_list_by_category' sub_category.url_title %}">{{ sub_category.title }}</a></li>
+                                                    {% endfor %}
 										</ul>
 
 									</div>
@@ -34,31 +33,3 @@
 							</div>
 
                             {% endfor %}
-
-						<div class="brands_products"><!--brands_products-->
-							<h2>برنـد ها</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href=""> <span class="pull-left">(50)</span>برنـد 1</a></li>
-									<li><a href=""> <span class="pull-left">(56)</span>برنـد 2</a></li>
-									<li><a href=""> <span class="pull-left">(27)</span>برنـد 3</a></li>
-									<li><a href=""> <span class="pull-left">(32)</span>برنـد 4</a></li>
-									<li><a href=""> <span class="pull-left">(5)</span>برنـد 5</a></li>
-								</ul>
-							</div>
-						</div><!--/brands_products-->
-
-						<div class="price-range"><!--price-range-->
-							<h2>فیلتـر قیمـت</h2>
-							<div class="well">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="1000000" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b>1.000.000 ريال</b> <b class="pull-left">0 ريال</b>
-							</div>
-						</div><!--/price-range-->
-
-						<div class="shipping text-center"><!--shipping-->
-							<img src="../static/images/home/shipping.jpg" alt="" />
-						</div><!--/shipping-->
-
-					</div>
-				</div>

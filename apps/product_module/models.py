@@ -22,6 +22,7 @@ class ProductCategory(models.Model):
 class ProductBrand(models.Model):
     title = models.CharField(max_length=300, db_index=True, verbose_name="نام برند ")
     is_active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
+    url = models.CharField(max_length=300 , verbose_name="برند")
 
     def __str__(self):
         return self.title
@@ -37,7 +38,7 @@ class Product(models.Model):
         ProductCategory,
         related_name='product_categories',
         verbose_name='دسته بندی ها')
-    brand = models.ForeignKey(ProductBrand,on_delete=models.CASCADE,verbose_name='برند محصول ', blank=True, null=True )
+    brand = models.ForeignKey(ProductBrand,on_delete=models.CASCADE,related_name="brand",verbose_name='برند محصول ', blank=True, null=True )
     price = models.IntegerField(verbose_name='قیمت')
     image = models.ImageField(upload_to='product_image',null=True)
     short_description = models.CharField(max_length=360, db_index=True, null=True, verbose_name='توضیحات کوتاه')

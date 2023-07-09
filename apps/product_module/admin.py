@@ -12,8 +12,12 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ('price', 'is_active')
 
 
+@admin.register(ProductBrand)
+class ProductBrand(admin.ModelAdmin):
+    list_display = ['title','is_active']
+    prepopulated_fields = {"url" : ["title",] }
 admin.site.register(ProductTag)
-admin.site.register(ProductBrand)
+
 admin.site.register(ProductCategory)
 admin.site.register(ProductGallery)
 admin.site.register(Product, ProductAdmin)

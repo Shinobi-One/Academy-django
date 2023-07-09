@@ -8,7 +8,8 @@
 {% block body %}
 	<section id="advertisement">
 		<div class="container">
-			<img src="../static/images/shop/advertisement.jpg" alt="" />
+            <img src="{{ top_banner.image.url }}" alt="" />
+
 		</div>
 	</section>
 
@@ -17,7 +18,9 @@
 			<div class="row">
 
 				<div class="col-sm-9 padding-right">
-					<div class="features_items"><!--features_items-->
+
+					{% if product %}
+                        <div class="features_items"><!--features_items-->
 						<h2 class="title text-center">محصولات عمده</h2>
                         {% for products in product %}
                             {% include 'include/product_list_component.html' %}
@@ -36,15 +39,22 @@
                         {% endif %}
 						</ul>
 					</div><!--features_items-->
+                        {% else %}
+                        <div class="alert alert-warning">
+                    <p class="h3">هیج محصولی یافت نشد</p>
+                        </div>
+					{% endif %}
 				</div>
                     <div class="col-sm-3">
 					<div class="left-sidebar">
                 {% render_partial "apps.product_module.views.category_components" %}
+                {% render_partial "apps.product_module.views.brand_components" %}
 
-
-
+                    <div class="shipping text-center"><!--shipping-->
+                        <a href="{{ right_banner.url }}"><img src="{{ right_banner.image.url }}" alt="" /></a>
+						</div><!--/shipping-->
 </div>
 			</div>
 		</div>
-	</section>
+        </div></section>
 {% endblock %}

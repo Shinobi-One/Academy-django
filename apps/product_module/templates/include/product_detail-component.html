@@ -12,19 +12,34 @@
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 
 								  <!-- Wrapper for slides -->
-								    <div class="carousel-inner">
-										<div class="item active">
-                                            <a href="">
-                                            {% for item in product.product_gallery.all %}
-                                                    {% thumbnail item.images "85x85" crop="center"  as image %}
-                                            <img src="{{ image.url }}">
+								    {% if product_gallery %}
+                                        <div class="carousel-inner">
+										{% for group in product_gallery %}
+										<div class="item {% if forloop.first %} active {% endif %} ">
+										  {% for pictures in group  %}
+                                            {% if pictures.images %}
+                                              <a href="">{% thumbnail pictures.images "85x85" crop="center"  as image %}
+                                            <img src="{{ image.url }}"></a>
                                                 {% endthumbnail %}
-										  </a>
+                                              {% else %}
+                                              <a href=""><img src="/static/images/product-details/similar1.jpg" alt=""></a>
+                                              {% endif %}
 										  {% endfor %}
+
+
+										</div>
+										{% endfor %}
+                                    </div>
+                                        {% else %}
+                                        <div class="carousel-inner">
+										<div class="item active">
+										  <a href=""><img src="/static/images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="/static/images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="/static/images/product-details/similar3.jpg" alt=""></a>
 										</div>
 
 									</div>
-
+								    {% endif %}
 								  <!-- Controls -->
 								  <a class="right item-control" href="#similar-product" data-slide="next">
 									<i class="fa fa-angle-right"></i>
