@@ -10,16 +10,17 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(Article)
-class ArticleCategoryAdmin(admin.ModelAdmin):
+class ArticleAdmin(admin.ModelAdmin):
     list_display = ['title', 'is_active','author']
     list_editable = ['is_active' ]
     prepopulated_fields = {"slug": ['title',]}
 
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request, obj:Article , form, change):
         if not change :
-            obj.writer = request.user
+            obj.author = request.user
         return super().save_model(request,obj,form,change)
 
 @admin.register(ArticleComments)
 class ArticleCommentsAdmin(admin.ModelAdmin):
     pass
+

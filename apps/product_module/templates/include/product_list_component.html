@@ -1,5 +1,6 @@
+{% load poll_extras %}
 {% load thumbnail %}
-                            <div class="col-sm-4">
+                            <div class="col-md-{{ col_size }}">
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
@@ -11,13 +12,13 @@
                                             <img src="/static/images/shop/product.jpg" alt="" />
                                         {% endif %}
 
-											<h2> تومان {{ products.price }}</h2>
+											<h2> تومان {{ products.get_three_digit_prices }}</h2>
 											<p>{{ products.title }}</p>
 										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
 									</div>
 									<div class="product-overlay">
 										<div class="overlay-content">
-											<h2> تومان{{ products.price }}</h2>
+											<h2> تومان{{ products.price | three_digit_price }}</h2>
 											<p>{{ products.short_description }}</p>
 											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
 										</div>

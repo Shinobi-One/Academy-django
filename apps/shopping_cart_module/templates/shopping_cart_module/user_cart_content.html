@@ -1,0 +1,96 @@
+{% load poll_extras %}
+{% load thumbnail %}
+    {% if order.order_products.all %}
+<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">خانـه</a></li>
+				  <li class="active">پرداخت</li>
+				</ol>
+			</div><!--/breadcrums-->
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">کـالا</td>
+							<td class="description"></td>
+							<td class="price">قیمت</td>
+							<td class="quantity">تعـداد</td>
+							<td class="total">مجمـوع</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+
+						    {% for order_detail in order.order_products.all %}
+						        <tr>
+							<td class="cart_product">
+								<a href="">{% thumbnail order_detail.product.image "90x90" crop="center"  as image %}
+                                            <img src="{{ image.url }}" alt="">{% endthumbnail %}</a>
+							</td>
+							<td class="cart_description">
+								<h4><a class="one-line-text" href="">{{ order_detail.product.title | safe }}</a></h4>
+								<p class="one-line-text">شناسـه : {{ order_detail.id }}</p>
+							</td>
+							<td class="cart_price">
+								<p>{{ order_detail.product.price | three_digit_price }} ريال</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<a onclick="changeCount({{ order_detail.id }},'increase')" class="cart_quantity_down cursor-pointer " > + </a>
+									<input class="cart_quantity_input" id="quantity" type="text" name="quantity" value="{{ order_detail.count }}" autocomplete="off" size="2">
+									<a onclick="changeCount({{ order_detail.id }},'decrease')" class="cart_quantity_down" > - </a>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price">{{ order_detail.get_full_price | three_digit_price }} ريال</p>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" onclick="DeleteOrder({{ order_detail.id }})" ><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+						    {% endfor %}
+
+
+
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+    <section id="do_action">
+		<div class="container">
+			<div class="heading">
+				<h3>نهایی کردن سفارش یا ادامه خریـد ؟! </h3>
+				<p>در صورتیکـه کوپن خریـد و یا کد تخفیف داریـد میتوانید از آن استفاده نمایید | با استفاده از بخش مربوطه هزینه حمل و نقل خود را محاسبـه نمایید</p>
+			</div>
+			<div class="row">
+
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>مجمـوع سبـد خریـد <span>{{ order_detail.get_full_price }}</li>
+							<li>مالیـات (9%) <span>182.700 ريال</span></li>
+							<li>هزینـه حمل و نقـل <span>رایـگان</span></li>
+							<li>مجمـوع <span>{{ total }}</span></li>
+						</ul>
+							<a class="btn btn-default update" href="shop.html">به روز رسانی سبـد خریـد </a>
+							<a class="btn btn-default check_out" href="checkout.html">پرداخت</a>
+					</div>
+				</div>
+			</div>
+		</div>
+    {% else %}
+        <div class="container"><div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <p class="h4">
+                   سبد خرید شما خالی می باشد
+                    </p>
+                </div>
+            </div>
+        </div></div>
+    {% endif %}
+	</section><!--/#do_action-->

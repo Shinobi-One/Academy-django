@@ -1,13 +1,17 @@
+{% load thumbnail %}
+{% load poll_extras %}
 {% load sorl_thumbnail %}
 <div class="col-sm-5">
 							<div class="view-product">
                                 {% if product.image %}
-                                <img src="{{ product.image.url }}" alt="">
-                            {% else %}
-								<img src="/static/images/product-details/1.jpg" alt="" />
-                            {% endif %}
+                                            {% thumbnail product.image "268x250" quality=100 crop="center" as image  %}
+                                            <img id="main_image" src="{{ image.url }}">
+                                        {% endthumbnail %}
+                                        {% else %}
+                                            <img id="main_image" src="/static/images/shop/product.jpg" alt="" />
+                                        {% endif %}
+                                <a id="bigger_picture" href="{{ product.image.url }}  " data-lightbox="image"><p class="h4">zoom</p></a>
 
-								<h3>بزرگنمایـی</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 
@@ -18,7 +22,8 @@
 										<div class="item {% if forloop.first %} active {% endif %} ">
 										  {% for pictures in group  %}
                                             {% if pictures.images %}
-                                              <a href="">{% thumbnail pictures.images "85x85" crop="center"  as image %}
+                                              <a  onclick="ChangeImage('{{ pictures.images.url }}')" >
+                                                  {% thumbnail pictures.images "85x85" crop="center"  as image %}
                                             <img src="{{ image.url }}"></a>
                                                 {% endthumbnail %}
                                               {% else %}
@@ -59,17 +64,17 @@
 								</div>
 								<div>
 									<span>
-										<span>قیمت : {{ product.price}} تومان </span>
+										<span>قیمت : {{ product.get_three_digit_prices }} ریال </span>
 									</span>
 									<span>
 										<label>تعداد :</label>
-                                            <form action="{% url 'shop:product_list' %}" name="product" >
-                                                <input type="hidden" value="{{ product.id }}" class="search_box"/>
-										<button type="submit" class="btn btn-default cart">
+
+                                                <input  id="count_input" type="number" min="1" max="20" value="1" class="search_box"/>
+										<a onclick="AddtoOrder({{ product.id }})" type="submit" class="btn btn-default cart">
 											<i class="fa fa-shopping-cart"></i>
-											افـزودن به favorite
-										</button>
-                                            </form>
+											افـزودن به سبد خرید
+										</a>
+
 									</span>
 								</div>
 								<div>

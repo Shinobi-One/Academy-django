@@ -1,5 +1,6 @@
+from django.db.models import Count
 from django.shortcuts import render
-from apps.product_module.models import Product
+from apps.product_module.models import Product, ProductCategory ,ProductVisitCount
 from django.views.generic import TemplateView
 from apps.website_module.models import SiteSetting, FooterLinkBox,Sliders
 from utils.list_slicers import list_group
@@ -14,8 +15,21 @@ class HomeView(TemplateView):
         context = super().get_context_data(*args, **kwargs)
         slider : Sliders =  Sliders.objects.filter(is_active=True)
         context['slider'] = slider
-        latest_products  = Product.objects.filter(is_active=True,is_delete=False).order_by('-id')[:10]
+        latest_products  = Product.objects.filter(is_active=True,is_delete=False).order_by('-id')[:12]
         context['latest_products'] = list_group(latest_products , 4)
+        most_viewed = Product.objects.annotate(visit_count=Count('product_visit')).order_by('-visit_count').filter(is_active=True,is_delete=False)[:12]
+        context['most_viewed'] = list_group(most_viewed ,4)
+        categories = list(ProductCategory.objects.annotate(category_product=Count('product_categories')).filter(is_active=True, is_delete=False,category_product__gt=0).order_by('-category_product')[:10])
+        categories_products = []
+        for category in categories:
+            item = {
+                'id': category.id,
+                'title': category.title,
+                'products': list(category.product_categories.all()[:3])
+            }
+            categories_products.append(item)
+
+        context['categories_products'] = categories_products
         return context
 
 

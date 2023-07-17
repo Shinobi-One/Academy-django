@@ -9,7 +9,7 @@
 		<div class="container">
 			<div class="row">
 
-				<div class="col-sm-9">
+				<div class="col-sm-12">
 					<div class="blog-post-area">
 						<h2 class="title text-center">{{ article.title }}</h2>
 						<div class="single-blog-post">
@@ -17,8 +17,8 @@
 							<div class="post-meta">
 								<ul>
 									<li><i class="fa fa-user"></i> {{ article.author }}</li>
-									<li><i class="fa fa-clock-o"></i> {{ article.date_created }}</li>
-									<li><i class="fa fa-calendar"></i>{{ article.get_jalali_time }}</li>
+									<li><i class="fa fa-clock-o"></i> {{ article.get_jalali_create_time }}</li>
+									<li><i class="fa fa-calendar"></i>{{ article.get_jalali_create_date }}</li>
 								</ul>
 								<span>
 										<i class="fa fa-star"></i>
@@ -93,65 +93,13 @@
                         {% endif %}
 					</div><!--Comments-->
 
-                        <div class="response-area" id="comment_section">
 
-						<h2>پاسخ ها ({{ count }})</h2>
-						<ul class="media-list">
 
-                            {% for comment in comments %}
-							<li class="media">
+                            {% include 'article_module/components/comment_component.html' with comments=comments %}
+                    <div class="replay-box">
 
-								<a class="pull-right" href="#">  {% thumbnail article.author.avatar "128x89" crop="center"  as image %}
-                               <img src="{{ image.url }}">
-								</a>{% endthumbnail %}
-								<div class="media-body"  >
-									<ul class="sinlge-post-meta">
-										<li><i class="fa fa-user"></i>{{ comment.author.get_full_name }}</li>
-{#										<li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>#}
-										<li><i class="fa fa-calendar"></i>{{ comment.date_created }}</li>
-									</ul>
-                                    <p>{{ comment.text }}</p>
-                                    <a class="btn btn-primary" onclick="setparentId({{ comment.id }})"><i
-                                                class="fa fa-reply"></i>پاسـخ</a>
-								</div>
-							</li>
 
-                    {% for answer in comment.parent_comment.all %}
-                                    	<li class="media second-media">
-                                        {% if answer.author.avatar %}
-								<a class="pull-right" href="#">
-                        {% thumbnail answer.author.avatar "128x89" crop="center"  as image %}
-                               <img class="media-object" src="{{ image.url }}">
-                                {% endthumbnail %}
-                        {% else %}
-							<a class="pull-right" href="#">
-									<img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
-								</a>
-
-                        {% endif %}
-								</a>
-								<div class="media-body">
-									<ul class="sinlge-post-meta">
-										<li><i class="fa fa-user"></i>{{ answer.author.get_full_name }}</li>
-										<li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-										<li><i class="fa fa-calendar"></i>{{ article.date_created }}</li>
-									</ul>
-									<p>{{ answer.text }}</p>
-
-								</div>
-							</li>
-                                    {% endfor %}{% endfor %}
-
-						</ul>
-
-					</div>
-
-                    <!--/Response-area-->
-</div><!--/Response-area-->
-                    <div class="replay-box"  >
-                        {% if request.user.is_authenticated %}
-                            <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-12"><div class="row">{% if request.user.is_authenticated %}
                                     <h2>نظـر خود را بنویسیـد</h2>
                                     <div class="text-area" id="comment_form" >
                                         <input type="hidden" id="parent_id" value="">
@@ -165,11 +113,12 @@
                                     </div>
                                 </div>
                             </div>
-                        {% else %}
-                            <div class="alert alert-warning">
-                                برای درج نظر می بایست <a href="{% url 'user:login' %}">لاگین</a> کنید
-                            </div>
-                        {% endif %}
+                            </div>{% else %}
+                              <div class="alert alert-warning">
+                                برای درج نظر می بایست <a href="{% url 'user:login' %}">لاگین</a> کنید{% endif %}
+
+
+
                     </div><!--/Repaly Box-->
                 </div>
 				</div>
@@ -177,6 +126,6 @@
 
 
 			</div>
-		</div>
+
 	</section>
 {% endblock %}

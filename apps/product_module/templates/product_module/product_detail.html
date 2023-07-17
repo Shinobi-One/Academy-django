@@ -1,8 +1,12 @@
 {% extends 'include/layout.html' %}
 {% load render_partial %}
 {% load thumbnail %}
+{% load poll_extras %}
 {% block title %}
  جزئیات محصول
+{% endblock %}
+{% block aditional_header_refrences %}
+    <link href="/static/css/lightbox.css" rel="stylesheet" />
 {% endblock %}
 {% block body %}
 	<section>
@@ -17,17 +21,15 @@
 					<div class="category-tab shop-details-tab"><!--category-tab-->
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#details" data-toggle="tab">جزئیات</a></li>
-
+								<li class="active" ><a href="#details" data-toggle="tab">جزئیات</a></li>
 								<li ><a href="#reviews" data-toggle="tab">نظرات (5)</a></li>
 							</ul>
 						</div>
 						<div class="tab-content">
-							<div class="tab-pane fade" id="details" >
+							<div class="tab-pane active in fade" id="details" >
 								<div class="col-sm-12">
-                                    <p>{{ product.description }}</p>
+                                    <p>{{ product.description | safe }}</p>
                                 </div>
-
 							</div>
 
 
@@ -45,45 +47,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="../static/images/home/gallery.jpg" alt="" />
-												<h2>1.250.000 ريال</h2>
-												<p>توضیحات کوتاه محصول</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="../static/images/home/gallery.jpg" alt="" />
-												<h2>1.250.000 ريال</h2>
-												<p>توضیحات کوتاه محصول</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="../static/images/home/gallery.jpg" alt="" />
-												<h2>1.250.000 ريال</h2>
-												<p>توضیحات کوتاه محصول</p>
-												<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</button>
-											</div>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 
-							<div class="tab-pane fade active in" id="reviews" >
+							<div class="tab-pane fade " id="reviews" >
 								<div class="col-sm-12">
 									<ul>
 										<li><i class="fa fa-user"></i>{{ user.username }}</li>
@@ -114,36 +81,21 @@
 						<h2 class="title text-center">محصولات پیشنهادی</h2>
 
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="item active">
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="/static/images/product-details/1.jpg" alt="" />
-													<h2>1.250.000 ريال</h2>
-													<p>توضیحات کوتاه محصول</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="/static/images/product-details/1.jpg" alt="" />
-													<h2>1.250.000 ريال</h2>
-													<p>توضیحات کوتاه محصول</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</button>
-												</div>
-											</div>
-										</div>
-									</div>
+
+                                    <div class="carousel-inner">
+                                        {% for brands in related_product %}
+								<div class="item {% if forloop.first %} active {% endif %} ">
+									{% for products in brands %}
+									{% include 'include/product_list_component.html' with col_size=3 %}
+									{% endfor %}
+
+
 
 								</div>
-
+ {% endfor %}
 							</div>
+
+
 							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 								<i class="fa fa-angle-left"></i>
 							  </a>
@@ -157,7 +109,7 @@
 
 				<div class="col-sm-3">
 					<div class="left-sidebar">
-						<h2>دسته بندی محصولات</h2>
+
                         {% render_partial "apps.product_module.views.category_components" %}
                     {% render_partial "apps.product_module.views.brand_components" %}
 						<div class="shipping text-center"><!--shipping-->
@@ -170,4 +122,8 @@
 			</div>
 		</div>
 	</section>
+{% endblock %}
+{% block aditional_footer_refrences %}
+    <script src="/static/js/lightbox.js"></script>
+
 {% endblock %}

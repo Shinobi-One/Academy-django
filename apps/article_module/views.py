@@ -1,5 +1,7 @@
-from django.http import HttpResponse, HttpRequest
+from django.db.models import Count
+from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from .models import ArticleCategory, Article, ArticleComments
@@ -11,14 +13,14 @@ from .models import ArticleCategory, Article, ArticleComments
 
 class ArticlesView(ListView):
     template_name = 'article_module/articles_page.html'
-    paginate_by = 5
+    paginate_by = 1
     context_object_name = "article"
     model = Article
-
+    ordering = ['-date_created',]
 
     def get_context_data(self,*args , **kwargs):
-        data = super(ArticlesView, self).get_context_data(*args , **kwargs)
-        return data
+        context = super(ArticlesView, self).get_context_data(*args, **kwargs)
+        return context
 
     def get_queryset(self):
         query = super(ArticlesView,self).get_queryset()
@@ -39,6 +41,7 @@ class ArticleDetailView(DetailView):
         article = kwargs.get('object')
         comment : ArticleComments = ArticleComments.objects.filter(article_id=article.id,parent=None).order_by('-date_created').prefetch_related("parent_comment")
         context['comments'] = comment
+        context['comment_count'] = ArticleComments.objects.annotate(comment_count=Count('article')).filter(article_id=article.id).count()
         return context
 def category_components(request):
     main_categories = ArticleCategory.objects.prefetch_related('articlecategory_set').filter(is_active=True,parent = None)
@@ -52,7 +55,20 @@ def add_article_comment(request: HttpRequest):
         article_id = request.GET.get('article_id')
         article_comment = request.GET.get('article_comment')
         parent_id = request.GET.get('parent_id')
-        print(article_id, article_comment, parent_id)
         new_comment = ArticleComments(article_id=article_id, text=article_comment ,author_id=request.user.id, parent_id=parent_id)
         new_comment.save()
-        return HttpResponse('response')
+
+        context = {
+            'comments': ArticleComments.objects.filter(article_id=article_id, parent=None).order_by(
+                '-date_created'),
+            'comments_count': ArticleComments.objects.filter(article_id=article_id).count()
+        }
+        data = render_to_string('article_module/components/comment_component.html' , context)
+        return JsonResponse({
+        'status' : 'success' ,
+        'response' : data
+    })
+
+
+
+

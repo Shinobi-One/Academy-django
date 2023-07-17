@@ -8,6 +8,7 @@
     <meta name="author" content="">
     <title>{% block title %}{% endblock %}</title>
     {% include 'include/header_references.html' %}
+    {% block aditional_header_refrences %}{% endblock %}
 </head>
 <body>
 {% render_partial 'apps.home_module.views.header_component' %}
@@ -16,5 +17,7 @@
 {% endblock %}
 {% render_partial 'apps.home_module.views.footer_component' %}
     {% include 'include/footer-refernces.html' %}
+    {% block aditional_footer_refrences %}{% endblock %}
+
 </body>
 </html>

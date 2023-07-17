@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'polls',
     'sorl.thumbnail',
     'jalali_date',
-    'apps.user_panel_module'
+    'apps.user_panel_module',
+    'apps.shopping_cart_module'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'shop_project.wsgi.application'
-
+LOGIN_URL = 'user:login'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 

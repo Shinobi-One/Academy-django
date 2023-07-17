@@ -30,6 +30,7 @@
 .slider.slider-horizontal .slider-handle {
   margin-left: -12px;
   margin-top: 2px;
+  touch-action: auto;
 }
 
 .left-round{

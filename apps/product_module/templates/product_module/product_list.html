@@ -1,4 +1,5 @@
 {% extends 'include/layout.html' %}
+{% load poll_extras %}
 {% load render_partial %}
 
 {% block title %}
@@ -23,18 +24,19 @@
                         <div class="features_items"><!--features_items-->
 						<h2 class="title text-center">محصولات عمده</h2>
                         {% for products in product %}
-                            {% include 'include/product_list_component.html' %}
+                            {% include 'include/product_list_component.html' with col_size=4 %}
                         {% endfor %}
                     <div class="clearfix"></div>
 						<ul class="pagination">
                         {% if page_obj.has_previous %}
-                            <li><a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
+                            <li><a onclick="PageNumber({{ page_obj.previous_page_number }})">قبلی</a></li>
                         {% endif %}
                             {% for pages in paginator.page_range %}
-							<li class="{% if page_obj.number == pages %} active {% endif %}" ><a href="?page={{ pages }}">{{ pages }}</a></li>
+							<li class="{% if page_obj.number == pages %} active {% endif %}" >
+                                <a onclick="PageNumber({{ pages }})">{{ pages }}</a></li>
                             {% endfor %}
                         {% if page_obj.has_next %}
-                            <li><a href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
+                            <li><a onclick="PageNumber({{ page_obj.next_page_number }})">بعدی</a></li>
 
                         {% endif %}
 						</ul>
@@ -46,14 +48,51 @@
 					{% endif %}
 				</div>
                     <div class="col-sm-3">
+
 					<div class="left-sidebar">
                 {% render_partial "apps.product_module.views.category_components" %}
                 {% render_partial "apps.product_module.views.brand_components" %}
+                        						<div class="price-range"><!--price-range-->
+							<h2>فیلتـر قیمـت</h2>
+							<div class="well">
+								 <input type="text"
+                                        class="span2"
+                                        value="{{ min_price }},{{ max_price }}"
+                                        data-slider-min="{{ min_price }}"
+                                        data-slider-max="{{ max_price }}"
+                                        data-slider-step="100000"
+                                        data-slider-value="[{{ page_product_maximum_price }},{{ page_product_minimum_price  }}]"
+                                        id="sl2" ><br />
+								 <b>{{ page_product_maximum_price }}  </b><b class="pull-left">{{ page_product_minimum_price }}  </b>
+							</div>
+
+						</div><!--/price-range-->
+                            <div>
+                                <form id="FilterPrice" action="">
+                                <input id="page" value="{{ page_obj.number }}" name="page" type="hidden">
+                                    <input id="min_price" value="{{ min_price }}" name="min_price" type="hidden">
+                                <input id="max_price" value="{{ max_price }}" name="max_price" type="hidden">
+                                </form>
+                                <button onclick="ChangePriceFilter()" type="submit" class="btn btn-success btn-block " >فیلتر</button>
+
+                            </div>
 
                     <div class="shipping text-center"><!--shipping-->
                         <a href="{{ right_banner.url }}"><img src="{{ right_banner.image.url }}" alt="" /></a>
 						</div><!--/shipping-->
 </div>
+
+
+                         <div>
+                            <form  id="change_price" action="">
+
+                            </form>
+
+                        </div>
+
+
+
+
 			</div>
 		</div>
         </div></section>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductCategory, ProductTag, ProductBrand, ProductGallery
+from .models import Product, ProductCategory, ProductTag, ProductBrand, ProductGallery, ProductVisitCount
 
 
 # Register your models here.
@@ -16,6 +16,12 @@ class ProductAdmin(admin.ModelAdmin):
 class ProductBrand(admin.ModelAdmin):
     list_display = ['title','is_active']
     prepopulated_fields = {"url" : ["title",] }
+
+
+
+@admin.register(ProductVisitCount)
+class ProductVisit(admin.ModelAdmin):
+    pass
 admin.site.register(ProductTag)
 
 admin.site.register(ProductCategory)

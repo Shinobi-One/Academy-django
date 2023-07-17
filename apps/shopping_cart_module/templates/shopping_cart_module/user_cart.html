@@ -1,0 +1,15 @@
+{% extends 'include/layout.html' %}
+{% load poll_extras %}
+{% load thumbnail %}
+
+{% block title %}
+ سبد خرید
+{% endblock %}
+
+{% block body %}
+    <div id="delete-cart-response" >
+    {% include "shopping_cart_module/user_cart_content.html" with order=order %}
+    </div>
+
+
+{% endblock %}
