@@ -34,7 +34,7 @@
 								<p class="one-line-text">شناسـه : {{ order_detail.id }}</p>
 							</td>
 							<td class="cart_price">
-								<p>{{ order_detail.product.price | three_digit_price }} ريال</p>
+								<p>{{ order_detail.product.price | three_digit_price }} تومان </p>
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
@@ -44,7 +44,7 @@
 								</div>
 							</td>
 							<td class="cart_total">
-								<p class="cart_total_price">{{ order_detail.get_full_price | three_digit_price }} ريال</p>
+								<p class="cart_total_price">{{ order_detail.get_full_price | three_digit_price }} تومان </p>
 							</td>
 							<td class="cart_delete">
 								<a class="cart_quantity_delete" onclick="DeleteOrder({{ order_detail.id }})" ><i class="fa fa-times"></i></a>

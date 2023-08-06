@@ -15,11 +15,11 @@ class HomeView(TemplateView):
         context = super().get_context_data(*args, **kwargs)
         slider : Sliders =  Sliders.objects.filter(is_active=True)
         context['slider'] = slider
-        latest_products  = Product.objects.filter(is_active=True,is_delete=False).order_by('-id')[:12]
+        latest_products  = Product.objects.filter(is_active=True,is_delete=False).order_by('-id')[:24]
         context['latest_products'] = list_group(latest_products , 4)
         most_viewed = Product.objects.annotate(visit_count=Count('product_visit')).order_by('-visit_count').filter(is_active=True,is_delete=False)[:12]
         context['most_viewed'] = list_group(most_viewed ,4)
-        categories = list(ProductCategory.objects.annotate(category_product=Count('product_categories')).filter(is_active=True, is_delete=False,category_product__gt=0).order_by('-category_product')[:10])
+        categories = list(ProductCategory.objects.annotate(category_product=Count('product_categories')).filter(is_active=True, is_delete=False,category_product__gt=0).order_by('-parent')[:10])
         categories_products = []
         for category in categories:
             item = {

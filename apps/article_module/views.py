@@ -13,7 +13,8 @@ from .models import ArticleCategory, Article, ArticleComments
 
 class ArticlesView(ListView):
     template_name = 'article_module/articles_page.html'
-    paginate_by = 1
+    paginate_by = 2
+
     context_object_name = "article"
     model = Article
     ordering = ['-date_created',]

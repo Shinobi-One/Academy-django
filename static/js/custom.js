@@ -12,7 +12,7 @@ function sendArticleComment(articleId) {
             $('#parent_id').val('');
 
 }
-        if (parentId !== null && parentId !== '') {
+        if (parentId !== null && parentId !== '') {scrollIntoView
             document.getElementById('single_comment_box_' + parentId).scrollIntoView({behavior: "smooth"});
         } else {
             document.getElementById('comment_section').scrollIntoView({behavior: "smooth"});
@@ -52,6 +52,30 @@ function PageNumber(page){
 function AddtoOrder(productId){
     const count = $('#count_input').val()
     $.get('/order/add-to-order?product_id='+ productId + '&count=' + count ).then(res => {
+    if (res.status === 'success') {
+            Swal.fire({
+                title: "محصول مورد نظر با موفقیت به سبد خرید شما اضافه شد",
+
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'باشه ممنون'
+            });
+        } else if (res.response === 'please login') {
+            Swal.fire({
+                title: "ابتدا باید به حساب کاربری خود وارد شوید",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#ffbb00',
+                confirmButtonText: 'باشه'
+            });
+
+}
+});
+}
+
+function  AddtoOrderHome(productId){
+    $.get('/order/add-to-order?product_id='+ productId + '&count=' + 1 ).then(res => {
     if (res.status === 'success') {
             Swal.fire({
                 title: "محصول مورد نظر با موفقیت به سبد خرید شما اضافه شد",

@@ -15,7 +15,7 @@ class ContactUsView(CreateView):
     success_url = '/'
 
     def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args ,**kwargs)
+        context = super().get_context_data(**kwargs)
         context['site_settings'] : SiteSetting =  SiteSetting.objects.filter(is_main_setting=True).first()
         return context
 

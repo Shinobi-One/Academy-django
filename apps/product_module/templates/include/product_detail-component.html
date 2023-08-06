@@ -4,7 +4,7 @@
 <div class="col-sm-5">
 							<div class="view-product">
                                 {% if product.image %}
-                                            {% thumbnail product.image "268x250" quality=100 crop="center" as image  %}
+                                            {% thumbnail product.image "800x800" quality=100 crop="center" as image  %}
                                             <img id="main_image" src="{{ image.url }}">
                                         {% endthumbnail %}
                                         {% else %}
@@ -64,7 +64,7 @@
 								</div>
 								<div>
 									<span>
-										<span>قیمت : {{ product.get_three_digit_prices }} ریال </span>
+										<span>قیمت : {{ product.get_three_digit_prices }} تومان </span>
 									</span>
 									<span>
 										<label>تعداد :</label>

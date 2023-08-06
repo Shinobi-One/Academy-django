@@ -29,9 +29,9 @@ class User_Cart(ListView):
                                                                                 user_id=self.request.user.id).first()
         context['order'] = current_order
         total = 0
-        for order in current_order.order_products.all():
-            total += order.product.price * order.count
-        context['total'] = total
+        # for order in current_order.order_products.all():
+        #     total += order.get_full_price()
+        # context['total'] = total
         return context
 
 @login_required()
@@ -52,6 +52,7 @@ def delete_order(request: HttpRequest):
             })
         else:
             order_detail.delete()
+
 
     current_order, created = Order.objects.prefetch_related('order_products').get_or_create(is_paid=False,
                                                                                             user_id=request.user.id)
@@ -83,8 +84,11 @@ def add_to_order(request: HttpRequest):
                 current_order_detail.count += int(count)
                 current_order_detail.save()
             else:
+                total = 0
+                for order in current_order.order_products.all():
+                    total += order.get_full_price()
                 new_order_detail: OrderDetail = OrderDetail(order_id=current_order.id, product_id=product_id,
-                                                            count=count)
+                                                            count=count , final_price=total)
                 new_order_detail.save()
             return JsonResponse({
                 "status": "success"
@@ -97,7 +101,7 @@ def add_to_order(request: HttpRequest):
         return JsonResponse({
             "response": "please login"
         })
-
+    print(JsonResponse)
 @login_required()
 
 def change_order_cart(request: HttpRequest):

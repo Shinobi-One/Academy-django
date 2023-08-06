@@ -10,6 +10,7 @@ from ..user_module.models import User
 from utils.list_slicers import list_group
 from utils.http_serviecs import get_ip
 
+
 # Create your views here.
 
 
@@ -22,15 +23,15 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         base_query = super(ProductListView, self).get_queryset()
-        request : HttpRequest = self.request
+        request: HttpRequest = self.request
         this_category = self.kwargs.get('category')
         this_brand = self.kwargs.get("brand")
         max_price = request.GET.get('max_price')
-        if max_price is not None :
+        if max_price is not None:
             base_query = base_query.filter(price__lte=max_price)
-        min_price =  request.GET.get('min_price')
+        min_price = request.GET.get('min_price')
         print(min_price)
-        if min_price is not None :
+        if min_price is not None:
             base_query = base_query.filter(price__gte=min_price)
         base_query = base_query.filter(is_active=True)
         if this_category is not None:
@@ -45,13 +46,13 @@ class ProductListView(ListView):
         context['top_banner'] = SiteBanner.objects.filter(is_active=True,
                                                           position__exact=SiteBanner.BannerPosition.product_list_top).first()
         context['right_banner'] = SiteBanner.objects.filter(is_active=True,
-                                                           position__exact=SiteBanner.BannerPosition.product_list_right).first()
+                                                            position__exact=SiteBanner.BannerPosition.product_list_right).first()
         query = self.get_queryset()
-        max_product : Product = query.order_by('-price').first()
+        max_product: Product = query.order_by('-price').first()
         page_product_maximum_price = max_product.price if max_product is not None else 100000000
         context['page_product_maximum_price'] = page_product_maximum_price
-        min_product : Product = query.order_by('price').first()
-        page_product_minimum_price = min_product.price if max_product is not  None else 0
+        min_product: Product = query.order_by('price').first()
+        page_product_minimum_price = min_product.price if max_product is not None else 0
         context['page_product_minimum_price'] = page_product_minimum_price
         context['max_price'] = request.GET.get('max_price') or page_product_maximum_price
         context['min_price'] = request.GET.get('min_price') or 0
@@ -66,20 +67,22 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
 
         context = super(ProductDetailView, self).get_context_data()
-        product : Product = kwargs.get('object')
-        category_of_product = list(Product.objects.filter(brand_id=product.brand_id).exclude(pk=product.id).order_by('id')[:9])
+        product: Product = kwargs.get('object')
+        category_of_product = list(
+            Product.objects.filter(brand_id=product.brand_id).exclude(pk=product.id).order_by('id')[:9])
         context['related_product'] = list_group(category_of_product, 4)
         context["user"] = User.objects.filter(is_active=True).first()
         product_gallery = list(ProductGallery.objects.filter(slider_id=product.id).all())
         context['product_gallery'] = list_group(product_gallery, 3)
-        user_id = None
-        user_ip = get_ip(self.request)
-        if self.request.user.is_authenticated:
-            user_id = self.request.user.id
-        has_been_visited = ProductVisitCount.objects.filter(ip__iexact=user_ip , product_id=product.id,user__exact=user_id).exists()
-        if not has_been_visited  :
-            new_visit = ProductVisitCount(ip=user_ip,user_id=user_id, product_id=product.id)
-            new_visit.save()
+        # user_id = None
+        # user_ip = get_ip(self.request)
+        # if self.request.user.is_authenticated:
+        #     user_id = self.request.user.id
+        # has_been_visited = ProductVisitCount.objects.filter(ip__iexact=user_ip, product_id=product.id,
+        #                                                     user__exact=user_id).exists()
+        # if not has_been_visited:
+        #     new_visit = ProductVisitCount(ip=user_ip, user_id=user_id, product_id=product.id)
+        #     new_visit.save()
         return context
 
 
@@ -92,7 +95,8 @@ def category_components(request):
 
 
 def brand_components(request):
-    product_brands = ProductBrand.objects.annotate(product_counts=Count('brand')).filter(is_active=True)
+    product_brands = ProductBrand.objects.annotate(product_counts=Count('brand')).filter(is_active=True,
+                                                                                         product_counts__gt=0)
     context = {
         "brands": product_brands
     }

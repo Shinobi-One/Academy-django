@@ -33,7 +33,7 @@
                                <img src="{{ image.url }}">
                                 {% endthumbnail %}
 							</a>
-							<p>{{ article.text }}</p>
+							<p class="h4">{{ article.text }}</p>
 							<div class="pager-area">
 								<ul class="pager pull-left">
 									<li><a href="#">قبلی</a></li>
@@ -43,35 +43,12 @@
 						</div>
 					</div><!--/blog-post-area-->
 
-					<div class="rating-area">
-						<ul class="ratings">
-							<li class="rate-this">به این مطلب امتیـاز دهیـد :</li>
-							<li>
-								<i class="fa fa-star color"></i>
-								<i class="fa fa-star color"></i>
-								<i class="fa fa-star color"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-							</li>
-							<li class="color">( 6 نظـر )</li>
-						</ul>
-						<ul class="tag">
-							<li>برچسب :</li>
-							<li><a class="color" href="">برچسب 1 <span>/</span></a></li>
-							<li><a class="color" href="">برچسب 2 <span>/</span></a></li>
-							<li><a class="color" href="">برچسب 3</a></li>
-						</ul>
-					</div><!--/rating-area-->
-
-					<div class="socials-share">
-						<a href=""><img src="/static/images/blog/socials.png" alt=""></a>
-					</div><!--/socials-share-->
                     {% if article.author %}
 					<div class="media commnets">
 						<a class="pull-right" href="#">
                         {% if article.author.avatar %}
-                        {% thumbnail article.author.avatar "120x89" crop="center"  as image %}
-                               <img class="media-object" src="{{ image.url }}">
+                        {% thumbnail article.author.avatar "150x150" crop="center"  as image %}
+                               <img style="border-radius: 10% " class="media-object" src="{{ image.url }}">
                                 {% endthumbnail %}
                         {% else %}
 							<img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
@@ -80,15 +57,6 @@
 						<div class="media-body">
 							<h4 class="media-heading">{{ article.author.get_full_name }}</h4>
 							<p>{{ article.author.about }}</p>
-							<div class="blog-socials">
-								<ul>
-									<li><a href=""><i class="fa fa-facebook"></i></a></li>
-									<li><a href=""><i class="fa fa-twitter"></i></a></li>
-									<li><a href=""><i class="fa fa-dribbble"></i></a></li>
-									<li><a href=""><i class="fa fa-google-plus"></i></a></li>
-								</ul>
-								<a class="btn btn-primary" href="">سایـر مطالب نویسنده</a>
-							</div>
 						</div>
                         {% endif %}
 					</div><!--Comments-->

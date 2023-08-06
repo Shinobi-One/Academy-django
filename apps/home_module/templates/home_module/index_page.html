@@ -18,8 +18,8 @@
 								<div class="col-sm-6">
 
 									<h2><span>{{ sliders.title}}</span></h2>
-									<p>{{ sliders.title }} </p>
-                                    <a href="{{ slider.slider_url }}"class="btn btn-default get" target="_blank" >{{ sliders.url_title }}</a>
+									<p class="h3">{{ sliders.short_description }} </p>
+                                    <a href="{{ sliders.url }}"class="btn btn-default get" >{{ sliders.url_title }}</a>
 
 								</div>
 								<div class="col-sm-6">
@@ -63,7 +63,7 @@
 											<div class="single-products">
 												<div class="productinfo text-center">
 													{% if product.image %}
-                                            {% thumbnail product.image "268x250" crop="center"  as image %}
+                                            {% thumbnail product.image "500x500" quality=100 crop="center"  as image %}
                                             <img src="{{ image.url }}" alt="">
                                         {% endthumbnail %}
                                         {% else %}
@@ -71,7 +71,10 @@
                                         {% endif %}
 													<h2>{{ product.get_three_digit_prices }} تومان </h2>
 													<p>{{ product.short_description }}</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خرید</a>
+													<a onclick="AddtoOrderHome({{ product.id }})" type="submit" class="btn btn-default cart">
+											<i class="fa fa-shopping-cart"></i>
+											افـزودن به سبد خرید
+										</a>
 												</div>
 
 

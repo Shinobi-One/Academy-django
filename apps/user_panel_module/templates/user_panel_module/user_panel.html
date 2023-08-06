@@ -13,16 +13,15 @@
         {% render_partial 'apps.user_panel_module.views.user_panel_partial' %}
    </div>
         <div class="col-md-8">
-            <div class="panel panel-primary">
-  <div class="panel-heading">Panel heading without title</div>
+            <div class="panel panel-default">
+  <div class="panel-heading">درباره شما :</div>
   <div class="panel-body">
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam animi aperiam consectetur distinctio ea earum excepturi explicabo harum in modi necessitatibus, nobis numquam possimus, reiciendis sequi ullam, vel vero.  </div>
+<p>{{ user.about }} </p> </div>
 </div>
-        </div>
 
     </div></div>
 
-
+    </div>
 
 
 {% endblock %}
